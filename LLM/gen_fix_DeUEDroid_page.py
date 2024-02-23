@@ -6,8 +6,8 @@ import json
 from tqdm import tqdm
 import re
 
-tokenizer = AutoTokenizer.from_pretrained("/cpfs01/projects-SSD/cfff-5822cced0fd0_SSD/cxy_22210240138/PSG/PSG/chatglm3-6b32k", trust_remote_code=True)
-model = AutoModel.from_pretrained("/cpfs01/projects-SSD/cfff-5822cced0fd0_SSD/cxy_22210240138/PSG/PSG/chatglm3-6b32k", trust_remote_code=True, device='cuda')
+tokenizer = AutoTokenizer.from_pretrained("/home/jiuyan/chatglm3-6b32k", trust_remote_code=True)
+model = AutoModel.from_pretrained("/home/jiuyan/chatglm3-6b32k", trust_remote_code=True, device='cuda')
 model = model.eval()
 
 
@@ -17,17 +17,13 @@ def get_subdirectories(directory):
     return subdirectories
 
 # 指定目录的路径
-directory_path = "/cpfs01/projects-SSD/cfff-5822cced0fd0_SSD/cxy_22210240138/PSG/PSG/PSG_dataset/DescribeCTX_result"
+directory_path = "/mnt/inside_15T/PPG_dataset/DeUEDroid_fix_result/Normal"
 
-apk_name = []
-with open('./describeCtx.txt', 'r') as f:
-    lines = f.readlines()
-    for line in lines:
-        apk_name.append(line.strip())
+subdirectories = get_subdirectories(directory_path)
 
-for subdirectory in tqdm(apk_name):
+for subdirectory in tqdm(subdirectories):
     path = directory_path + "/" + subdirectory + "/"
-    if os.path.exists(path+'uiHtml.json') and os.path.exists(path+'/cfgs'):
+    if os.path.exists(path+'uiHtml.json'):
         ui_dic = {}
         with open(path+'uiHtml.json', 'r', encoding='utf-8') as f:
             ui_dic = json.load(f)
@@ -36,7 +32,7 @@ for subdirectory in tqdm(apk_name):
         with open(path+'uiEvent.json', 'r', encoding='utf-8') as f:
             ui_event = json.load(f)
 
-        path = '/cpfs01/projects-SSD/cfff-5822cced0fd0_SSD/cxy_22210240138/PSG/PSG/PSG_dataset/describeCtx_abstract/'+subdirectory
+        path = '/mnt/inside_15T/PPG_dataset/DeUEDroid_fix_abstract/Normal/'+subdirectory
         if os.path.exists(path):
             result = {}
 
@@ -114,7 +110,7 @@ for subdirectory in tqdm(apk_name):
                         error_message = f"Error processing doc_result[{i}]: {e}"
                         # Optionally, print the error message to the console
                         print(error_message)
-                if not os.path.exists('/cpfs01/projects-SSD/cfff-5822cced0fd0_SSD/cxy_22210240138/PSG/PSG/PSG_dataset/describeCtx_page/'+subdirectory):
-                    os.makedirs('/cpfs01/projects-SSD/cfff-5822cced0fd0_SSD/cxy_22210240138/PSG/PSG/PSG_dataset/describeCtx_page/'+subdirectory)
-                with open('/cpfs01/projects-SSD/cfff-5822cced0fd0_SSD/cxy_22210240138/PSG/PSG/PSG_dataset/describeCtx_page/'+subdirectory+'/page.json','w', encoding='utf-8') as f:
+                if not os.path.exists('/mnt/inside_15T/PPG_dataset/DeUEDroid_page/Normal/'+subdirectory):
+                    os.makedirs('/mnt/inside_15T/PPG_dataset/DeUEDroid_page/Normal/'+subdirectory)
+                with open('/mnt/inside_15T/PPG_dataset/DeUEDroid_page/Normal/'+subdirectory+'/page.json','w', encoding='utf-8') as f:
                     json.dump(result,f)
