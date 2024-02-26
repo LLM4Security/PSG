@@ -10,7 +10,7 @@ We fuse the extracted UI and code, and then use the chain of thought approach to
 
 * **PSG Construction** 
 We use static analysis to find all the inter-component communication (ICC) between all pages.
- The code for statistic analysis and extraction part is packed to a `jar` executable file in 'statistic_analysis/ppg_sa'.
+ The code for statistic analysis and extraction part is packed to a `jar` executable file in `statistic_analysis/ppg_sa`.
 
 ## UTILIZING PSG
 ### Task 1 App Description Generation
